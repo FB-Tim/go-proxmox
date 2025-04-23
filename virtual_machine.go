@@ -606,6 +606,18 @@ func (v *VirtualMachine) FirewallRulesDelete(ctx context.Context, rulePos int) e
 	return v.client.Delete(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/rules/%d", v.Node, v.VMID, rulePos), nil)
 }
 
+func (v *VirtualMachine) GetFirewallIPSet(ctx context.Context) (ipsets []*FirewallIPSet, err error) {
+	return ipsets, v.client.Get(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/ipset", v.Node, v.VMID), &ipsets)
+}
+
+func (v *VirtualMachine) NewFirewallIPSet(ctx context.Context, ipset *FirewallIPSet) error {
+	return v.client.Post(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/ipset", v.Node, v.VMID), ipset, nil)
+}
+
+func (v *VirtualMachine) Firewall(ctx context.Context) (firewall *Firewall, err error) {
+	return firewall, v.client.Get(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall", v.Node, v.VMID), &firewall)
+}
+
 func (v *VirtualMachine) NewSnapshot(ctx context.Context, name string) (task *Task, err error) {
 	var upid UPID
 	if err = v.client.Post(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/snapshot", v.Node, v.VMID), map[string]string{"snapname": name}, &upid); err != nil {
