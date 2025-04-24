@@ -614,6 +614,18 @@ func (v *VirtualMachine) NewFirewallIPSet(ctx context.Context, ipset *FirewallIP
 	return v.client.Post(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/ipset", v.Node, v.VMID), ipset, nil)
 }
 
+func (v *VirtualMachine) AddFirewallIPSetEntry(ctx context.Context, name string, entry *FirewallIPSetEntry) error {
+	return v.client.Post(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/ipset/%s", v.Node, v.VMID, name), entry, nil)
+}
+
+func (v *VirtualMachine) GetFirewallIPSetEntry(ctx context.Context, name string, cidr string) (entry *FirewallIPSetEntry, err error) {
+	return entry, v.client.Get(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/ipset/%s/%s", v.Node, v.VMID, name, cidr), &entry)
+}
+
+func (v *VirtualMachine) DeleteFirewallIPSetEntry(ctx context.Context, name string, cidr string) error {
+	return v.client.Delete(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall/ipset/%s/%s", v.Node, v.VMID, name, cidr), nil)
+}
+
 func (v *VirtualMachine) Firewall(ctx context.Context) (firewall *Firewall, err error) {
 	return firewall, v.client.Get(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/firewall", v.Node, v.VMID), &firewall)
 }

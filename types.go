@@ -1610,6 +1610,11 @@ type FirewallIPSet struct {
 	Comment string `json:"comment,omitempty"`
 }
 
+type FirewallIPSetEntry struct {
+	CIDR    string `json:"cidr"`
+	Comment string `json:"comment,omitempty"`
+}
+
 type (
 	VirtualMachineBackupMode               = string
 	VirtualMachineBackupCompress           = string
