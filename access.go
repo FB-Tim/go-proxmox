@@ -30,7 +30,7 @@ func (c *Client) ACL(ctx context.Context) (acl ACLs, err error) {
 	return acl, c.Get(ctx, "/access/acl", &acl)
 }
 
-func (c *Client) UpdateACL(ctx context.Context, acl ACL) error {
+func (c *Client) UpdateACL(ctx context.Context, acl ACLOptions) error {
 	return c.Put(ctx, "/access/acl", &acl, nil)
 }
 
